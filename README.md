@@ -1,15 +1,16 @@
 YAP/TAZ/TEAD4 ChIP-Seq Reanalysis
 
-Overview
+Overview:
 
 This project reproduces and extends the **YAP/TAZ/TEAD4 ChIP-seq analysis** from Zanconato et al. (2015) to understand how transcriptional co-activators **YAP** and **TAZ** cooperate with **TEAD4** and **AP-1** to regulate oncogenic gene expression in breast cancer.  
 
 Using publicly available ChIP-seq datasets, this analysis explores **genome-wide binding patterns**, **enhancer–promoter classification**, and **motif enrichment** to confirm enhancer-centric regulation by the Hippo signaling pathway.
 
 
-Biological Context
+Biological Context:
+The Hippo Signaling Pathway:
 
-The Hippo Signaling Pathway
+![Hippo Signaling Pathway Diagram](figs_main/hippocampuspathway.jpg)
 
 The **Hippo pathway** is a signaling network that controls organ size, cell proliferation, and apoptosis.  
 When active, Hippo phosphorylates and inactivates the effector proteins **YAP** (Yes-associated protein) and **TAZ** (Transcriptional co-activator with PDZ-binding motif), retaining them in the cytoplasm.  
@@ -22,7 +23,7 @@ In breast cancer, **overexpression or nuclear accumulation of YAP/TAZ** is assoc
 - Resistance to therapy  
 - Poor prognosis  
 
-The Role of TEAD and AP-1
+The Role of TEAD and AP-1:
 
 - **TEAD transcription factors (TEAD1–4)**: Bind directly to DNA and act as anchors for YAP and TAZ.  
 - **AP-1 (Activator Protein-1)**: A complex formed by **JUN** and **FOS** proteins that regulates genes in response to growth factors and stress signals.  
@@ -52,31 +53,33 @@ This project aimed to **reproduce the computational analyses and visualizations*
 
 The complete ChIP-seq pipeline was implemented to process, analyze, and visualize genome-wide binding patterns.
 
-1️⃣ Data Retrieval**
+![ChIP-seq Pipeline](figs_main/chipseq_pipeline.png)
+
+1️.Data Retrieval:
 - Downloaded raw FASTQ reads (SRA toolkit) for YAP, TAZ, TEAD4, and IgG control.
 
-2️⃣ Quality Control**
+2️. Quality Control:
 - Tool: **FastQC (v0.11.5)**
 - Verified base quality, GC content, and adapter contamination.
 
-3️⃣ Trimming**
+3️. Trimming:
 - Tool: **fastp (v0.24.1)**
 - Trimmed low-quality bases (5–6 bp) from both ends of reads.
 
-4️⃣ Alignment**
+4️. Alignment:
 - Tool: **Bowtie2**
 - Mapped reads to **GRCh38 (no-alt analysis set)**.  
 - Used **SAMtools** to convert, sort, and index BAM files.
 
-5️⃣ Peak Calling**
-- Tool: **MACS3**
+5️. Peak Calling:
+- Tool: **MACS3*
 - Called significant peaks using IgG as background control.
 
-6️⃣ Peak Overlap Analysis**
+6️. Peak Overlap Analysis:
 - Tool: **bedtools intersect** and **multicov**
 - Identified co-bound regions and quantified ChIP signal intensity.
 
-7️⃣ Motif Analysis**
+7️. Motif Analysis:
 - Tools: **HOMER** and **MEME Suite (FIMO)**
 - Identified **TEAD** and **AP-1** motifs within shared peaks.
 - Measured distances between YAP/TAZ/TEAD4 peaks and AP-1 motifs using:
@@ -84,26 +87,26 @@ The complete ChIP-seq pipeline was implemented to process, analyze, and visualiz
   bedtools closest -a YAP_TAZ_TEAD4_common.bed -b ap1_motifs.filtered.sorted.bed -d
   ```
 
-8️⃣ Visualization**
+8️. Visualization:
 - Tools: **R**, **deepTools**, and **IGV**
 - Generated heatmaps, scatter plots, pie charts, and genome browser tracks.
 
 Reproduced Results
 
-**Quality and Alignment**
+Quality and Alignment:
 - All FASTQ files passed FastQC metrics with high-quality reads.  
 - Successful alignment to GRCh38 with minimal multi-mapping.
 
-**Peak Identification**
+Peak Identification:
 - *MACS3* identified:
   - **7,164 YAP–TAZ overlapping peaks**
   - **5,965 peaks also co-bound by TEAD4**
 
-**Peak Overlap and Correlation**
+Peak Overlap and Correlation:
 - Signal correlation (R² ≈ **0.85–0.9**) among YAP, TAZ, and TEAD4 peaks.
 - Indicates strong co-binding and shared chromatin occupancy.
 
-**Genomic Distribution**
+Genomic Distribution:
 - Most peaks located **1–100 kb from TSS**, consistent with **enhancer** localization.
 - **Promoters:** H3K4me3 + H3K27ac  
 - **Active enhancers:** H3K4me1 + H3K27ac  
@@ -115,15 +118,15 @@ Reproduced Results
 | Promoters | ~20% | H3K4me3, H3K27ac |
 | Inactive Enhancers | ~15% | H3K4me1 only |
 
-**Motif Enrichment**
+Motif Enrichment:
 - **TEAD motifs:** most enriched → TEAD4 as DNA-anchoring factor.  
 - **AP-1 motifs:** frequently co-localized near shared peaks, suggesting functional cooperation.
 
-**Visualization Highlights**
-- **Scatter plots:** Strong correlation of signal intensity between YAP/TAZ/TEAD4.  
-- **Pie charts:** Distribution of promoter and enhancer peaks.  
-- **Heatmaps:** Intense signal at enhancer regions.  
-- **IGV tracks:** Co-binding at key genes like **ANKRD1** and **CDC6**, confirming enhancer-mediated activation.
+Visualization Highlights:
+- Scatter plots: Strong correlation of signal intensity between YAP/TAZ/TEAD4.  
+- Pie charts: Distribution of promoter and enhancer peaks.  
+- Heatmaps: Intense signal at enhancer regions.  
+- IGV tracks: Co-binding at key genes like **ANKRD1** and **CDC6**, confirming enhancer-mediated activation.
 
 ---
 
