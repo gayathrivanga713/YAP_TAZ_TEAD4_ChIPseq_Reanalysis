@@ -53,7 +53,7 @@ This project aimed to **reproduce the computational analyses and visualizations*
 
 The complete ChIP-seq pipeline was implemented to process, analyze, and visualize genome-wide binding patterns.
 
-![ChIP-seq Pipeline](figs_main/chipseq pipeline.png)
+![ChIP-seq Pipeline](figs_main/chipseq%20pipeline.png)
 
 1️.Data Retrieval:
 - Downloaded raw FASTQ reads (SRA toolkit) for YAP, TAZ, TEAD4, and IgG control.
